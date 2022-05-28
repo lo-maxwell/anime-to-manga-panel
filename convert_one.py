@@ -8,13 +8,26 @@ import os
 import sys
 from PIL import Image, ImageOps
 
-#Input: RCB of type tuple
+#input: RGB of type int
+#output: RGB shifted to be more mangalike
+def grayscaleShift(color):
+    gray = color
+    if gray < 15:
+        gray = 0
+    if gray > 0:
+        gray = min(int((gray + 20)*1.1), 255)
+    return gray
+
+#Input: RGB of type tuple
 #Output: RGB converted to grayscale of type tuple
 def colorToGrayscale(color, cluster=1):
     #get gray color
     gray = 0.299 * color[0] + 0.587 * color[1] + 0.114 * color[2]
     #round to nearest cluster
     gray = int((gray//cluster)*cluster)
+
+    #shift for manga coloration
+    gray = grayscaleShift(gray)
     return (gray, gray, gray)
 
 def convert_all(originalPath, newPath):
