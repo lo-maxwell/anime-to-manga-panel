@@ -1,4 +1,4 @@
-from convert_one import convert_all, convert_cluster
+from convert_one import convert_all, convert_cluster, define_borders
 import os
 import sys
 #Want to get similar colors to manga page, not just grayscale
@@ -18,6 +18,7 @@ def main(args):
             convert_cluster(os.path.join(originalDir, p), os.path.join(newDir, p), cluster) #2.98s
         else:
             convert_all(os.path.join(originalDir, p), os.path.join(newDir, p)) #0.77s
+        define_borders(os.path.join(originalDir, p), os.path.join('pages/mainstream/defined', p))
 
 if __name__ == '__main__':
     main(sys.argv[1:])
