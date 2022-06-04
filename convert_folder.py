@@ -1,4 +1,4 @@
-from convert_one import convert_all, convert_cluster, define_borders
+from convert_one import convert_all, convert_cluster, define_borders, enhance
 import os
 import sys
 #Want to get similar colors to manga page, not just grayscale
@@ -14,11 +14,16 @@ def main(args):
 
     pages = [f for f in os.listdir(originalDir) if f.lower().endswith(('jpg', '.jpeg'))]
     for p in pages:
+        originalPath = os.path.join(originalDir, p)
+        newPath = os.path.join(newDir, p)
         if (conversionType.lower() == 'cluster'):
-            convert_cluster(os.path.join(originalDir, p), os.path.join(newDir, p), cluster) #2.98s
+            convert_cluster(originalPath, newPath, cluster) #2.98s
+        elif (conversionType.lower() == 'standard'):
+            convert_all(originalPath, newPath) #0.77s
+        elif (conversionType.lower() == 'define'):
+            define_borders(originalPath, newPath)
         else:
-            convert_all(os.path.join(originalDir, p), os.path.join(newDir, p)) #0.77s
-        define_borders(os.path.join(originalDir, p), os.path.join('pages/mainstream/defined', p))
+            enhance(originalPath, newPath, conversionType.lower(), cluster)
 
 if __name__ == '__main__':
     main(sys.argv[1:])

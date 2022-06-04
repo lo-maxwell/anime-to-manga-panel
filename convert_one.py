@@ -6,7 +6,7 @@ import cv2
 import time
 import os
 import sys
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, ImageFilter
 
 #input: RGB of type int
 #output: RGB shifted to be more mangalike
@@ -34,11 +34,11 @@ def colorToGrayscale(color, shift = False, cluster=1):
     return (gray, gray, gray)
 
 def increaseContrast(color, cluster=1):
-    if (color[0] + color[1] + color[2] > 500):
+    if (color[0] + color[1] > 380 or color[0] + color[2] > 380 or color[1] + color[2] > 380 or color[0] + color[1] + color[2] > 510):
         color = (255,255,255)
     if (color[0] + color[1] + color[2] < 100):
         color = (0,0,0)
-    color = colorShift(color, 350, 1.1, 0, 250, 0.9, 0)
+    color = colorShift(color, 200, 1.1, 0, 200, 0.9, 0)
     return color
 
 def colorShift(color, upThreshold, upPercent, upFlat, downThreshold, downPercent, downFlat):
@@ -47,14 +47,14 @@ def colorShift(color, upThreshold, upPercent, upFlat, downThreshold, downPercent
         color = (min(int((color[0])*upPercent + upFlat), 255), min(int((color[1])*upPercent + upFlat), 255), min(int((color[2])*upPercent + upFlat), 255))
     if (colorSum <= downThreshold):
         color = (max(int((color[0])*downPercent - downFlat), 0), max(int((color[1])*downPercent - downFlat), 0), max(int((color[2])*downPercent - downFlat), 0))
-    if upThreshold > downThreshold:
-        mid = downThreshold + (upThreshold - downThreshold)/2
-        if (colorSum <= mid):
-            shiftPercent = (2+min((mid - colorSum)/mid, 1)*downPercent)/3
-            color = (max(int((color[0])*shiftPercent), 0), max(int((color[1])*shiftPercent), 0), max(int((color[2])*shiftPercent), 0))
-        else:
-            shiftPercent = (2+max((colorSum - mid)/mid, 1)*upPercent)/3
-            color = (min(int((color[0])*shiftPercent), 255),min(int((color[1])*shiftPercent), 255), min(int((color[2])*shiftPercent), 255))
+    # if upThreshold > downThreshold:
+    #     mid = downThreshold + (upThreshold - downThreshold)/2
+    #     if (colorSum <= mid):
+    #         shiftPercent = (2+min((mid - colorSum)/mid, 1)*downPercent)/3
+    #         color = (max(int((color[0])*shiftPercent), 0), max(int((color[1])*shiftPercent), 0), max(int((color[2])*shiftPercent), 0))
+    #     else:
+    #         shiftPercent = (2+max((colorSum - mid)/mid, 1)*upPercent)/3
+    #         color = (min(int((color[0])*shiftPercent), 255),min(int((color[1])*shiftPercent), 255), min(int((color[2])*shiftPercent), 255))
     return color
 
 def convert_all(originalPath, newPath):
@@ -98,3 +98,23 @@ def convert_cluster(originalPath, newPath, cluster=1):
     gray_image = Image.new(image.mode, image.size)
     gray_image.putdata(pixels)
     gray_image.save(newPath)
+
+def enhance(originalPath, newPath, conversionType, value):
+    image = Image.open(originalPath)
+    if conversionType == 'sharpen':
+        # Apply sharp filter
+        for i in range(value):
+            image = image.filter(ImageFilter.SHARPEN)
+    elif conversionType == 'detail':
+        # Apply detail filter
+        for i in range(value):
+            image = image.filter(ImageFilter.DETAIL)
+    elif conversionType == 'edge_enhance':
+        # Apply edge enhance filter
+        for i in range(value):
+            image = image.filter(ImageFilter.EDGE_ENHANCE)
+    elif conversionType == 'smooth':
+        # Apply smooth filter
+        for i in range(value):
+            image = image.filter(ImageFilter.SMOOTH)
+    image.save(newPath)
