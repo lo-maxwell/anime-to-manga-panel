@@ -16,14 +16,20 @@ def main(args):
     for p in pages:
         originalPath = os.path.join(originalDir, p)
         newPath = os.path.join(newDir, p)
-        if (conversionType.lower() == 'cluster'):
+        if (conversionType.lower() == 'gray'):
             convert_cluster(originalPath, newPath, cluster) #2.98s
         elif (conversionType.lower() == 'standard'):
             convert_all(originalPath, newPath) #0.77s
         elif (conversionType.lower() == 'define'):
             define_borders(originalPath, newPath)
-        else:
+        elif (conversionType.lower() == 'detail' or
+            conversionType.lower() == 'edge_enhance' or
+            conversionType.lower() == 'sharpen' or
+            conversionType.lower() == 'smooth'):
             enhance(originalPath, newPath, conversionType.lower(), cluster)
-
+        else:
+            print('Instruction format ' + conversionType + ' not recognized. See README for format types.')
+            break
+        
 if __name__ == '__main__':
     main(sys.argv[1:])

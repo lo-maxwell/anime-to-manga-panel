@@ -34,7 +34,10 @@ def colorToGrayscale(color, shift = False, cluster=1):
     return (gray, gray, gray)
 
 def increaseContrast(color, cluster=1):
-    if (color[0] + color[1] > 380 or color[0] + color[2] > 380 or color[1] + color[2] > 380 or color[0] + color[1] + color[2] > 510):
+    if (color[0] + color[1] > 380\
+     or color[0] + color[2] > 380\
+     or color[1] + color[2] > 380\
+     or color[0] + color[1] + color[2] > 510):
         color = (255,255,255)
     if (color[0] + color[1] + color[2] < 100):
         color = (0,0,0)
@@ -117,4 +120,6 @@ def enhance(originalPath, newPath, conversionType, value):
         # Apply smooth filter
         for i in range(value):
             image = image.filter(ImageFilter.SMOOTH)
+    else:
+        print('Instruction format ' + conversionType + ' not recognized. See README for format types.')
     image.save(newPath)
