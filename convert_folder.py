@@ -35,4 +35,5 @@ def main(args):
             break
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    listOfArguments = sys.argv[1:]
+    main(listOfArguments)
