@@ -10,11 +10,11 @@ def main(args):
     newDir = args[2] if len(args) > 2 else 'pages/mainstream_gray'
     value = max(int(args[3]), 1) if len(args) > 3 else 1
 
-    def checkIfDirectoryExistsIfNotCreateOne():
-        if not (os.path.exists(newDir) and os.path.isdir(newDir)):
-            os.makedirs(newDir)
+    def checkIfDirectoryExistsIfNotCreateOne(nameOfDirectory):
+        if not (os.path.exists(nameOfDirectory) and os.path.isdir(nameOfDirectory)):
+            os.makedirs(nameOfDirectory)
     
-    checkIfDirectoryExistsIfNotCreateOne()
+    checkIfDirectoryExistsIfNotCreateOne(newDir)
 
     pages = [f for f in os.listdir(originalDir) if f.lower().endswith(('jpg', '.jpeg'))]
     for p in pages:
