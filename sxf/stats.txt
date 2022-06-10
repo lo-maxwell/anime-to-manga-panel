@@ -1,4 +1,0 @@
-Total frames: 
-25
-Time taken: 
-1.0108680725097656
