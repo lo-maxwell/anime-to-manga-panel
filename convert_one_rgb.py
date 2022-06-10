@@ -51,8 +51,12 @@ def builtin_grayscale(originalPath, newPath):
 def custom_grayscale(originalPath, newPath, cluster=1):
     image = Image.open(originalPath, 'r')
     pixels = list(image.getdata())
+
+    def checkIfPixelOnlyContainOneElement(pixel):
+        return isinstance(pixel, int)
+
     for i in range(len(pixels)):
-        if isinstance(pixels[i], int):
+        if checkIfPixelOnlyContainOneElement(pixels[i]):
             pixels[i] = (pixels[i], pixels[i], pixels[i])
         pixels[i] = increaseContrast(pixels[i])
         pixels[i] = colorToGrayscale(pixels[i], cluster)
