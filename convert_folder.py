@@ -5,7 +5,7 @@ import sys
 #Want to get similar colors to manga page, not just grayscale
 
 def main(args):
-    conversionType = args[0] if len(args) > 0 else 'all'
+    conversionType = args[0] if len(args) > 0 else 'ERROR'
     originalDir = args[1] if len(args) > 1 else 'pages/mainstream'
     newDir = args[2] if len(args) > 2 else 'pages/mainstream_gray'
     value = max(int(args[3]), 1) if len(args) > 3 else 5
