@@ -27,3 +27,4 @@ To get current best images:
 python3 convert_folder.py hsv pages/mainstream pages/mainstream_gray/hsv 1
 python3 convert_folder.py sharpen pages/mainstream/hsv pages/mainstream_gray/hsv_sh 1
 ```
+Images will be in pages/mainstream_gray/hsv_sh
