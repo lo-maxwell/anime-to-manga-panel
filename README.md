@@ -21,3 +21,9 @@ Formats = gray, standard_gray, hsv, standard_hsv, detail, edge_enhance, sharpen,
 VALUE = clustering for grayscale, or # of times filter is applied
 ```
 Files in panels/ are for reference.
+
+To get current best images:
+```
+python3 convert_folder.py hsv pages/mainstream pages/mainstream_gray/hsv 1
+python3 convert_folder.py sharpen pages/mainstream/hsv pages/mainstream_gray/hsv_sh 1
+```
